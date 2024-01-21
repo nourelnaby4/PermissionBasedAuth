@@ -3,23 +3,17 @@ using PermissionBasedAuth.Constants;
 
 namespace PermissionBasedAuth.Seeding
 {
-    public class DefaultRoles
+    public static class DefaultRoles
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
-        public DefaultRoles(RoleManager<IdentityRole> roleManager)
-        {
-            _roleManager=roleManager;
-        }
-
-        public async Task CrateDefualtRoles()
+        public static async Task CrateDefualtRoles(RoleManager<IdentityRole> _roleManager)
         {
             if (!_roleManager.Roles.Any())
             {
-                _roleManager.CreateAsync(new IdentityRole(nameof(AppRoles.SuperAdmin)));
-                _roleManager.CreateAsync(new IdentityRole(nameof(AppRoles.Admin)));
-                _roleManager.CreateAsync(new IdentityRole(nameof(AppRoles.User)));
+                await _roleManager.CreateAsync(new IdentityRole(nameof(AppRoles.SuperAdmin)));
+                await _roleManager.CreateAsync(new IdentityRole(nameof(AppRoles.Admin)));
+                await _roleManager.CreateAsync(new IdentityRole(nameof(AppRoles.User)));
             }
-               
+
         }
     }
 }
