@@ -11,11 +11,15 @@ namespace PermissionBasedAuth.Seeding
             _roleManager=roleManager;
         }
 
-        public async Task CrateDefualtRole()
+        public async Task CrateDefualtRoles()
         {
-            _roleManager.CreateAsync(new IdentityRole( nameof(AppRoles.SuperAdmin)));
-            _roleManager.CreateAsync(new IdentityRole( nameof(AppRoles.Admin)));
-            _roleManager.CreateAsync(new IdentityRole( nameof(AppRoles.User)));
+            if (!_roleManager.Roles.Any())
+            {
+                _roleManager.CreateAsync(new IdentityRole(nameof(AppRoles.SuperAdmin)));
+                _roleManager.CreateAsync(new IdentityRole(nameof(AppRoles.Admin)));
+                _roleManager.CreateAsync(new IdentityRole(nameof(AppRoles.User)));
+            }
+               
         }
     }
 }
