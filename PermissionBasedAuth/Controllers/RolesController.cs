@@ -77,7 +77,7 @@ namespace PermissionBasedAuth.Controllers
                 var selectedClaims = permissionRole.Claims.Where(x => x.IsSelected).Select(x=>x.Lable);
                 foreach (var claim in selectedClaims)
                 {
-                    await _roleManager.AddClaimAsync(role, new Claim("Permission", claim));
+                    await _roleManager.AddClaimAsync(role, new Claim(nameof(ClaimType.Permission), claim));
                 }
                 await transaction.CommitAsync();
                 return Ok(permissionRole);

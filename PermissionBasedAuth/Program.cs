@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using PermissionBasedAuth.Context;
+using PermissionBasedAuth.Filters;
 using PermissionBasedAuth.Seeding;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +33,10 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(option =>
 })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+
+
+builder.Services.AddSingleton<IAuthorizationPolicyProvider,PermissionPolicyProvider>();
+builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
 var app = builder.Build();
 

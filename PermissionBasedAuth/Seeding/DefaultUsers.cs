@@ -45,9 +45,9 @@ namespace PermissionBasedAuth.Seeding
             var allPermissions = Permission.GenerateModuleClaimsList(module);
             foreach (var permission in allPermissions)
             {
-                if (!allClaims.Any(c => c.Type == nameof(ClaimType.Permissions) && c.Value == permission))
+                if (!allClaims.Any(c => c.Type == nameof(ClaimType.Permission) && c.Value == permission))
                 {
-                    await roleManager.AddClaimAsync(role, new Claim(nameof(ClaimType.Permissions), permission));
+                    await roleManager.AddClaimAsync(role, new Claim(nameof(ClaimType.Permission), permission));
                 }
             }
         }
