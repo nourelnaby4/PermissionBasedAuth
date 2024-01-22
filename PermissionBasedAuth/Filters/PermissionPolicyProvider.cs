@@ -4,26 +4,29 @@ using PermissionBasedAuth.Constants;
 
 namespace PermissionBasedAuth.Filters
 {
+
     public class PermissionPolicyProvider : IAuthorizationPolicyProvider
     {
-        private DefaultAuthorizationPolicyProvider FallbackPolicyProvider { get; }
+        public DefaultAuthorizationPolicyProvider FallbackPolicyProvider { get; }
+
         public PermissionPolicyProvider(IOptions<AuthorizationOptions> options)
         {
             FallbackPolicyProvider = new DefaultAuthorizationPolicyProvider(options);
         }
+
         public Task<AuthorizationPolicy> GetDefaultPolicyAsync()
         {
             return FallbackPolicyProvider.GetDefaultPolicyAsync();
         }
 
-        public Task<AuthorizationPolicy?> GetFallbackPolicyAsync()
+        public Task<AuthorizationPolicy> GetFallbackPolicyAsync()
         {
-            return FallbackPolicyProvider.GetDefaultPolicyAsync();
+            return Task.FromResult<AuthorizationPolicy>(null);
         }
 
-        public Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
+        public Task<AuthorizationPolicy> GetPolicyAsync(string policyName)
         {
-            if(policyName.StartsWith(nameof( ClaimType.Permission), StringComparison.OrdinalIgnoreCase))
+            if (policyName.StartsWith(nameof(ClaimType.Permission), StringComparison.OrdinalIgnoreCase))
             {
                 var policy = new AuthorizationPolicyBuilder();
                 policy.AddRequirements(new PermissionRequirement(policyName));
@@ -32,5 +35,7 @@ namespace PermissionBasedAuth.Filters
 
             return FallbackPolicyProvider.GetPolicyAsync(policyName);
         }
+
+
     }
 }
