@@ -31,7 +31,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(option =>
 })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
-    
+
 var app = builder.Build();
 
 using var dataSeedingScope = app.Services.CreateScope();
@@ -40,11 +40,14 @@ var loggerFactory = services.GetRequiredService<ILoggerFactory>();
 try
 {
     var scopFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
-    using var scop = scopFactory.CreateScope();
-    var roleManager = scop.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = scop.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-    await DefaultRoles.CrateDefualtRoles(roleManager);
-    await DefaultUsers.CrateDefualtUser(userManager,roleManager);
+    using (var scop = scopFactory.CreateScope())
+    {
+        var roleManager = scop.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        var userManager = scop.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+        await DefaultRoles.CrateDefualtRoles(roleManager);
+        await DefaultUsers.CrateDefualtUser(userManager, roleManager);
+    };
+
 }
 catch (Exception ex)
 {
