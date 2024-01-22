@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using PermissionBasedAuth.Constants;
+using System.Reflection;
 using System.Security.Claims;
 
 namespace PermissionBasedAuth.Seeding
@@ -35,13 +36,13 @@ namespace PermissionBasedAuth.Seeding
         public static async Task SeedClaimsForSuperUser(this RoleManager<IdentityRole> roleManager)
         {
             var adminRole = await roleManager.FindByNameAsync(nameof(AppRoles.SuperAdmin));
-            await roleManager.AddPermissionClaims(adminRole, "General");
+            await roleManager.AddPermissionClaims(adminRole,nameof( Modules.General));
         }
 
         public static async Task AddPermissionClaims(this RoleManager<IdentityRole> roleManager, IdentityRole role, string module)
         {
             var allClaims = await roleManager.GetClaimsAsync(role);
-            var allPermissions = Permission.GeneratePermissionList(module);
+            var allPermissions = Permission.GenerateModuleClaimsList(module);
             foreach (var permission in allPermissions)
             {
                 if (!allClaims.Any(c => c.Type == nameof(ClaimType.Permissions) && c.Value == permission))
