@@ -8,6 +8,8 @@ using Microsoft.OpenApi.Models;
 using PermissionBasedAuth.Context;
 using PermissionBasedAuth.Filters;
 using PermissionBasedAuth.Seeding;
+using PermissionBasedAuth.Services;
+using PermissionBasedAuth.ViewModels;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -57,7 +59,7 @@ AddJwtBearer(o =>
         ValidateAudience = true,
         ValidateIssuer = true,
         ValidateLifetime = true,
-        ValidIssuer = builder.Configuration ["JWT:Issuer"],
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
         ValidAudience = builder.Configuration["JWT:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
         ClockSkew = TimeSpan.Zero
@@ -71,9 +73,9 @@ AddJwtBearer(o =>
 
 // you should remove this line from project refeernces <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 
-builder.Services .AddSwaggerGen(c =>
+builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "AVMS Kiosk", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Permission Based Authentication", Version = "v1" });
     c.EnableAnnotations();
 
     c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
@@ -100,10 +102,12 @@ builder.Services .AddSwaggerGen(c =>
             }
            });
 });
+builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
 
 #endregion
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
 builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 var CORS = "_cors";
 builder.Services.AddCors(options =>
 {

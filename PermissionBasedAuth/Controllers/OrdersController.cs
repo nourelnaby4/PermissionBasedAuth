@@ -12,21 +12,25 @@ namespace PermissionBasedAuth.Controllers
     {
         public OrdersController() { }
 
-        [Authorize(policy:Permission.Order.Index)]
+        [Authorize(Permission.Order.Index)]
         [HttpGet] public IActionResult Get()
         {
             return Ok();
         }
+        [Authorize(Permission.Order.Create)]
         [HttpPost]
         public IActionResult Post()
         {
             return Ok();
         }
+        [Authorize(Permission.Order.Edit)]
         [HttpPut]
         public IActionResult Put()
         {
             return Ok();
         }
+
+        [Authorize(Permission.Order.Delete)]
         [HttpDelete]
         public IActionResult Delete()
         {

@@ -6,11 +6,11 @@
         {
             return new List<string>()
             {
-                $"Permissions.{module}.Index",
-                $"Permissions.{module}.Details",
-                $"Permissions.{module}.Create",
-                $"Permissions.{module}.Edit",
-                $"Permissions.{module}.Delete",
+                $"Permission.{module}.Index",
+                $"Permission.{module}.Details",
+                $"Permission.{module}.Create",
+                $"Permission.{module}.Edit",
+                $"Permission.{module}.Delete",
             };
         }
 
@@ -28,11 +28,11 @@
 
         public static class Order
         {
-            public const string Index = "Permissions.Order.Index";
-            public const string Details = "Permissions.Order.Details";
-            public const string Create = "Permissions.Order.Create";
-            public const string Edit = "Permissions.Order.Edit";
-            public const string Delete = "Permissions.Order.Delete";
+            public const string Index = "Permission.Order.Index";
+            public const string Details = "Permission.Order.Details";
+            public const string Create = "Permission.Order.Create";
+            public const string Edit = "Permission.Order.Edit";
+            public const string Delete = "Permission.Order.Delete";
         }
     }
 }

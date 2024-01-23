@@ -22,6 +22,7 @@ namespace PermissionBasedAuth.Controllers
             _roleManager = roleManager;
             _conetxt = context;
         }
+
         [HttpGet("get-users")]
         public async Task<IActionResult> GetUser()
         {

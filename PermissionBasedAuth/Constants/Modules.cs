@@ -3,10 +3,10 @@
     public enum Modules
     {
         General,
-        Products,
-        Categories,
-        Stocks,
-        Orders,
-        Invioces
+        Product,
+        Category,
+        Stock,
+        Order,
+        Invioce
     }
 }
